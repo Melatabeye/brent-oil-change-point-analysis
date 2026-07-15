@@ -1,147 +1,188 @@
 # Brent Oil Price Change Point Analysis
-## Task 1: Analysis Planning and Data Understanding
+## Task 1 Report: Bayesian Change Point Analysis of Brent Oil Prices
 
 ## 1. Introduction
 
-This project focuses on analyzing how major geopolitical, economic, and policy events influence Brent crude oil prices. The objective is to identify structural changes (change points) in the historical Brent oil price series and understand the relationship between significant events and oil market fluctuations.
+This project focuses on analyzing Brent crude oil price movements using exploratory data analysis and Bayesian Change Point Analysis.
 
-The analysis is conducted for Birhan Energies to provide data-driven insights that support investors, policymakers, and energy sector stakeholders in understanding oil price risks and market behavior.
+The objective is to identify significant structural changes in oil price behavior and investigate whether these changes correspond with major economic and geopolitical events.
 
----
-
-# 2. Data Analysis Workflow
-
-The analysis will follow a structured data science workflow:
-
-## Step 1: Data Collection and Preparation
-
-- Obtain historical Brent oil price data covering daily observations from May 1987 to September 2022.
-- Load the dataset into Python using pandas.
-- Convert date variables into datetime format.
-- Check for missing values, duplicate records, and data consistency.
-- Prepare additional variables such as daily returns and volatility measures.
-
-## Step 2: Exploratory Data Analysis (EDA)
-
-The exploratory analysis will include:
-
-- Visualization of Brent oil price trends over time.
-- Identification of major price increases and declines.
-- Analysis of periods with high market volatility.
-- Calculation of log returns:
-
-  log return = log(price_t) - log(price_t-1)
-
-- Stationarity testing using statistical methods such as the Augmented Dickey-Fuller test.
-
-## Step 3: Event Research and Integration
-
-Major oil market events will be compiled into a structured event dataset including:
-
-- Date of event
-- Event description
-- Event category
-- Expected market impact
-
-Events include:
-- Geopolitical conflicts
-- OPEC production decisions
-- Economic crises
-- International sanctions
-- Global disruptions
-
-## Step 4: Bayesian Change Point Analysis
-
-A Bayesian change point model will be developed using PyMC.
-
-The model will:
-
-- Identify dates where the statistical behavior of oil prices changes.
-- Estimate average price levels before and after detected changes.
-- Quantify the magnitude of market shifts.
-- Evaluate uncertainty using Bayesian posterior distributions.
-
-## Step 5: Interpretation and Reporting
-
-Detected change points will be compared with historical events to develop hypotheses about possible drivers of oil price changes.
-
-Results will be communicated through:
-
-- Visualizations
-- Statistical summaries
-- Dashboard outputs
-- Stakeholder-focused reports
+Understanding oil price transitions is important because crude oil prices influence energy markets, inflation, government policies, and investment decisions.
 
 ---
 
-# 3. Assumptions
+# 2. Dataset Description
 
-The analysis assumes:
+The analysis uses daily Brent crude oil price data.
 
-- Historical Brent oil prices accurately represent global crude oil market conditions.
-- Major geopolitical and economic events are potential drivers of structural market changes.
-- The selected events represent important external factors affecting oil prices.
-- Statistical change points indicate periods of unusual market behavior.
+The dataset contains:
 
----
+- Date: Daily observation date
+- Price: Brent crude oil price in USD per barrel
 
-# 4. Limitations
+The dataset contains:
 
-## Correlation vs Causation
+- 9,927 daily observations
+- Period: May 1987 to 2022
 
-A detected relationship between an event and an oil price change does not prove that the event directly caused the price movement.
-
-For example, if a price increase occurs after an OPEC announcement, the change may also be influenced by other factors such as:
-
-- Global demand changes
-- Currency movements
-- Inventory levels
-- Other geopolitical developments
-
-Therefore, this analysis identifies associations and possible explanations rather than establishing definite causal relationships.
-
-## Other Limitations
-
-- The model mainly focuses on price history and selected events.
-- External economic variables such as GDP, inflation, and exchange rates are not included.
-- Market reactions may occur before or after the actual event date.
-- Multiple events may happen simultaneously, making attribution difficult.
+The raw dataset was stored separately from processed data following good data management practices.
 
 ---
 
-# 5. Communication Strategy
+# 3. Data Preparation
 
-The findings will be communicated through:
+The following preprocessing steps were performed:
 
-## Reports
+- Converted Date column into datetime format.
+- Verified numerical format of price values.
+- Checked for missing values.
+- Removed invalid observations.
+- Created processed dataset for modeling.
 
-A detailed analytical report will summarize:
+The cleaned dataset was saved as:
 
-- Major detected change points
-- Associated events
-- Quantified price impacts
-- Recommendations
 
-## Dashboard
+---
 
-An interactive dashboard will allow stakeholders to:
+# 4. Exploratory Data Analysis
 
-- Explore historical prices
-- View detected structural changes
-- Filter important events
-- Understand market reactions
+## 4.1 Brent Oil Price Trend
 
-## Presentations
+The historical price visualization shows significant fluctuations throughout the observed period.
 
-Results will be presented using:
+Major market movements include:
 
-- Time-series charts
-- Change point visualizations
-- Event impact summaries
+- Early 1990s geopolitical uncertainty.
+- 2008 global financial crisis.
+- 2014 oil price decline.
+- 2020 COVID-19 market shock.
+- 2022 geopolitical disruptions.
 
-The target audience includes:
+---
 
-- Energy investors
-- Policymakers
-- Energy companies
-- Market analysts
+## 4.2 Rolling Average Analysis
+
+A 30-day rolling average was calculated to smooth daily fluctuations and identify long-term trends.
+
+The rolling average demonstrates periods where the underlying price trend changed significantly.
+
+---
+
+## 4.3 Volatility Analysis
+
+A 30-day rolling volatility measure was calculated using daily returns.
+
+Periods of increased volatility correspond with major market uncertainty events.
+
+---
+
+## 4.4 Log Return Analysis
+
+Log returns were calculated to analyze daily percentage changes in Brent prices.
+
+The log return series highlights periods of extreme market movements.
+
+---
+
+# 5. Stationarity Testing
+
+The Augmented Dickey-Fuller (ADF) test was applied to the log return series.
+
+Results:
+
+ADF Statistic:
+p-value:
+
+The p-value is significantly below the 0.05 threshold.
+
+Therefore, the null hypothesis of non-stationarity was rejected.
+
+The log return series was considered stationary and suitable for further time-series modeling.
+
+---
+
+# 6. Bayesian Change Point Analysis
+
+A Bayesian Change Point model was implemented using PyMC.
+
+The model assumes that the statistical behavior of oil prices changes at an unknown point.
+
+The model estimates:
+
+- Change point location
+- Mean price before the change
+- Mean price after the change
+- Price variability
+
+Bayesian sampling was performed using Markov Chain Monte Carlo (MCMC).
+
+---
+
+# 7. Model Results
+
+The Bayesian model identified the most probable structural change point:
+
+## Detected Change Point
+
+Estimated market characteristics:
+
+Before change point:
+
+After change point:
+
+The results indicate a significant shift in the underlying price level of Brent crude oil.
+
+---
+
+# 8. Historical Event Comparison
+
+The detected change point was compared with a structured historical events dataset.
+
+The closest recorded event was:
+
+| Event | Date | Difference |
+|---|---|---|
+| Iraq War begins | 20 March 2003 | 706 days |
+
+The detected change point does not directly correspond to one specific event.
+
+Instead, the structural shift likely reflects multiple interacting factors, including:
+
+- Increasing global oil demand.
+- Supply constraints.
+- Geopolitical uncertainty.
+- Market expectation changes.
+
+---
+
+# 9. Software Engineering Practices
+
+The project follows a structured workflow:
+
+- Separation of raw and processed datasets.
+- Reusable Python modules.
+- Automated testing.
+
+Implemented modules:
+
+Testing was implemented using pytest.
+
+---
+
+# 10. Limitations
+
+The analysis has several limitations:
+
+- The Bayesian model identifies statistical changes but cannot prove direct causality.
+- Historical events may influence markets with delays.
+- Multiple economic factors can contribute to price transitions.
+
+---
+
+# 11. Conclusion
+
+This project demonstrates how Bayesian Change Point Analysis can identify structural changes in Brent crude oil prices.
+
+The detected February 2005 change point highlights a significant shift in oil price behavior.
+
+Combining statistical modeling with historical event analysis provides a stronger understanding of commodity market dynamics and supports evidence-based decision making.
